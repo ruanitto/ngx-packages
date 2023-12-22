@@ -1,6 +1,6 @@
 {
   "name": "@ruanitto/ngx-local-storage",
-  "version": "1.3.6",
+  "version": "1.3.7",
   "description": "LocalStorageService for Angular with mostly the same API (and most of the code) from angular-local-storage",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -16,13 +16,13 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/ruanitto/ngx-packages.git"
+    "url": "https://github.com/ruanitto/ngx-packages/tree/master/projects/ngx-local-storage"
   },
   "bugs": {
     "url": "https://github.com/ruanitto/ngx-packages/issues",
     "email": "madrafael.gsilva@gmail.com"
   },
-  "homepage": "https://github.com/ruanitto/ngx-packages#readme",
+  "homepage": "https://github.com/ruanitto/ngx-packages/tree/master/projects/ngx-local-storage#readme",
   "license": "ISC",
   "peerDependencies": {
     "@angular/common": ">=10.2.5",

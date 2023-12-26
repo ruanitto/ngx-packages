@@ -1,21 +1,21 @@
-import { Inject, Injectable, Optional } from "@angular/core";
-import CryptoES from "crypto-es";
-import { Observable, Subscriber } from "rxjs";
-import { share } from "rxjs/operators";
-import { ILocalStorageEvent } from "./local-storage-events.interface";
+import { Inject, Injectable, Optional } from '@angular/core';
+import CryptoES from 'crypto-es';
+import { Observable, Subscriber } from 'rxjs';
+import { share } from 'rxjs/operators';
+import { ILocalStorageEvent } from './local-storage-events.interface';
 import {
   ILocalStorageServiceConfig,
   LOCAL_STORAGE_SERVICE_CONFIG,
-} from "./local-storage.config.interface";
-import { INotifyOptions } from "./notify-options.interface";
+} from './local-storage.config.interface';
+import { INotifyOptions } from './notify-options.interface';
 
-const DEPRECATED: string = "This function is deprecated.";
-const LOCAL_STORAGE_NOT_SUPPORTED: string = "LOCAL_STORAGE_NOT_SUPPORTED";
+const DEPRECATED: string = 'This function is deprecated.';
+const LOCAL_STORAGE_NOT_SUPPORTED: string = 'LOCAL_STORAGE_NOT_SUPPORTED';
 const ENCRYPT_KET_NOT_SET: string =
-  "To use this function encryptKey must be set!";
+  'To use this function encryptKey must be set!';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class LocalStorageService {
   public isSupported: boolean = false;
@@ -29,12 +29,12 @@ export class LocalStorageService {
     setItem: false,
     removeItem: false,
   };
-  private prefix: string = "ls";
-  private storageType: "sessionStorage" | "localStorage" = "localStorage";
+  private prefix: string = 'ls';
+  private storageType: 'sessionStorage' | 'localStorage' = 'localStorage';
   private webStorage: Storage;
 
   private encryptData: boolean = false;
-  private key: string = "";
+  private key: string = '';
 
   private errors: Subscriber<string> = new Subscriber<string>();
   private removeItems: Subscriber<ILocalStorageEvent> =
@@ -94,7 +94,7 @@ export class LocalStorageService {
   public add(key: string, value: any): boolean {
     if (console && console.warn) {
       console.warn(DEPRECATED);
-      console.warn("Use `LocalStorageService.set` instead.");
+      console.warn('Use `LocalStorageService.set` instead.');
     }
 
     return this.set(key, value);
@@ -104,12 +104,12 @@ export class LocalStorageService {
     // Setting both regular expressions independently
     // Empty strings result in catchall RegExp
     let prefixRegex = !!this.prefix
-      ? new RegExp("^" + this.prefix)
-      : new RegExp("");
+      ? new RegExp('^' + this.prefix)
+      : new RegExp('');
 
     let testRegex = !!regularExpression
       ? new RegExp(regularExpression)
-      : new RegExp("");
+      : new RegExp('');
 
     if (!this.isSupported) {
       this.warnings.next(LOCAL_STORAGE_NOT_SUPPORTED);
@@ -149,7 +149,7 @@ export class LocalStorageService {
       : null;
 
     // FIXME: not a perfect solution, since a valid 'null' string can't be stored
-    if (!item || item === "null") {
+    if (!item || item === 'null') {
       return null;
     }
 
@@ -166,6 +166,16 @@ export class LocalStorageService {
 
   public getStorageType(): string {
     return this.storageType;
+  }
+
+  /**
+   * Change global storage type - Case changed, will be applyed globally
+   */
+  public changeStorageType(
+    storageType: 'sessionStorage' | 'localStorage'
+  ): void {
+    this.setStorageType(storageType);
+    this.checkSupport();
   }
 
   public keys(): Array<string> {
@@ -285,7 +295,7 @@ export class LocalStorageService {
         // "QUOTA_EXCEEDED_ERR: DOM Exception 22: An attempt was made
         // to add something to storage that exceeded the quota."
         let key = this.deriveKey(`__${Math.round(Math.random() * 1e7)}`);
-        this.webStorage.setItem(key, "");
+        this.webStorage.setItem(key, '');
         this.webStorage.removeItem(key);
       }
 
@@ -308,14 +318,14 @@ export class LocalStorageService {
 
     // If there is a prefix set in the config let's use that with an appended
     // period for readability:
-    const PERIOD: string = ".";
+    const PERIOD: string = '.';
 
     if (this.prefix && !this.prefix.endsWith(PERIOD)) {
-      this.prefix = !!this.prefix ? `${this.prefix}${PERIOD}` : "";
+      this.prefix = !!this.prefix ? `${this.prefix}${PERIOD}` : '';
     }
   }
 
-  public setStorageType(storageType: "sessionStorage" | "localStorage"): void {
+  private setStorageType(storageType: 'sessionStorage' | 'localStorage'): void {
     this.storageType = storageType;
   }
 
